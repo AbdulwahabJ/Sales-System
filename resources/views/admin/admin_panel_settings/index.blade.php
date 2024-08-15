@@ -22,7 +22,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">بيانات الضبط العام</h3>
+                    <h3 class="card-title card_title_center">بيانات الضبط العام</h3>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -73,16 +73,19 @@
                                         @php
                                             $dt = new DateTime($data->updated_at);
                                             $date = $dt->format('Y-m-d');
-                                            $time = $dt->format("H:i");
+                                            $time = $dt->format('H:i');
                                             $newDateTime = date('A', strtotime($time));
-                                            $newDateTimeType = $newDateTime == 'AM' ? "صباحا" : "مساءَ";
+                                            $newDateTimeType = $newDateTime == 'AM' ? 'صباحا' : 'مساءَ';
                                         @endphp
                                         {{-- {{ dd($data) }} --}}
                                         {{ $date }}
                                         {{ $time }}
                                         {{ $newDateTimeType }}
                                         بواسطة
-                                        {{ $data->updated_by_admin->name}}
+                                        {{ $data->updated_by_admin->name }}
+
+                                        <a href="{{ route('admin.adminPanelSettings.edit') }}"
+                                            class="btn  btn-success">تعديل</a>
                                     @endif
                                 </td>
                             </tr>

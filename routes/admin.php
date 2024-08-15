@@ -26,6 +26,8 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
     Route::get('/admin-panel-settings/index', [AdminPanelSettingsController::class, 'index'])->name('admin.adminPanelSettings.index');
+    Route::get('/admin-panel-settings/edit', [AdminPanelSettingsController::class, 'edit'])->name('admin.adminPanelSettings.edit');
+    Route::post('/admin-panel-settings/update', [AdminPanelSettingsController::class, 'update'])->name('admin.adminPanelSettings.update');
 });
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'guest:admin'], function () {
     Route::get('/loginform', [LoginController::class, 'show_login_view'])->name('admin.loginform');
