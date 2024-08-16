@@ -71,20 +71,27 @@ class AdminPanelSettingsController extends Controller
             $admin_panel_settings->general_alert = $request->general_alert;
             $admin_panel_settings->updated_by = auth()->user()->id;
             $admin_panel_settings->updated_at = date("Y-m-d H:i:s");
+            $old_photo = $admin_panel_settings->photo;
             //
             if ($request->has('photo')) {
                 $request->validate([
                     'photo' => 'required|mimes:png,jpg,jpeg|max:2000',
                 ]);
-                $image_path = uploadImage('assets/admin/uploads', $request->photo,);
+                //add new photo
+                $image_path = uploadImage('assets/admin/uploads', $request->photo);
                 $admin_panel_settings->photo = $image_path;
+                //
+                //remove old photo
+                if (file_exists('assets/admin/uploads/' . $old_photo)) {
+                    unlink('assets/admin/uploads/' . $old_photo);
+                }
             }
             $admin_panel_settings->save();
-            return redirect()->route('admin.adminPanelSettings.index')->with(['success', 'تم تحديث البيانات بنجاح']);
+            return redirect()->route('admin.adminPanelSettings.index')->with(['success' => 'تم تحديث البيانات بنجاح']);
 
             //
         } catch (Exception $e) {
-            return redirect()->route('admin.adminPanelSettings.index')->with('error', $e->getMessage());
+            return redirect()->route('admin.adminPanelSettings.index')->with(['error' => 'عفوا حدث خطأ' . $e->getMessage()]);
         }
     }
 
