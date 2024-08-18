@@ -22,7 +22,7 @@ class AdminPanelSettingsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'system_name' => 'required|string',
+            'system_name' =>  ['required', 'regex:/^[\pL\s\-]+$/u'],
             'address' => 'required',
             'phone' => 'required',
         ];
@@ -31,7 +31,8 @@ class AdminPanelSettingsRequest extends FormRequest
     {
         return [
             'system_name.required' => 'اسم الشركة مطلوب',
-            'address.string' => 'يجب ادخال العنوان',
+            'system_name.regex' => ' يجب ان يتكون اسم الشركة من احرف فقط',
+            'address.required' => 'يجب ادخال العنوان',
             'phone.required' => 'يجب ادخال رقم الهاتف',
 
         ];

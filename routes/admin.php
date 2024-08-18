@@ -3,9 +3,9 @@
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminPanelSettingsController;
+use App\Http\Controllers\Admin\TreasuriesController;
 
 use Illuminate\Support\Facades\Route;
-use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,16 +18,21 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
+define('PAGINATION_COUNT', 1);
 Route::get('/', function () {
     return view('admin.auth.login');
 });
-
+//admin.treasuries.index
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/logout', [LoginController::class, 'logout'])->name('admin.logout');
+    /*    start  admin-panel-settings     */
     Route::get('/admin-panel-settings/index', [AdminPanelSettingsController::class, 'index'])->name('admin.adminPanelSettings.index');
     Route::get('/admin-panel-settings/edit', [AdminPanelSettingsController::class, 'edit'])->name('admin.adminPanelSettings.edit');
     Route::post('/admin-panel-settings/update', [AdminPanelSettingsController::class, 'update'])->name('admin.adminPanelSettings.update');
+    /*    start  treasuries     */
+    Route::get('/treasuries/index', [TreasuriesController::class, 'index'])->name('admin.treasuries.index');
+    /*    end treasuries       */
 });
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'guest:admin'], function () {
     Route::get('/loginform', [LoginController::class, 'show_login_view'])->name('admin.loginform');

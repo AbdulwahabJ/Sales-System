@@ -34,16 +34,25 @@
                                 <label>اسم الشركة</label>
                                 <input name="system_name" id="system_name" class="form-control"
                                     value="{{ $data->system_name }}" placeholder="ادخل اسم الشركة">
+                                @error('system_name')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="from-group mt-3">
                                 <label>عنوان الشركة</label>
                                 <input name="address" id="address" class="form-control" value="{{ $data->address }}"
                                     placeholder="ادخل عنوان الشركة">
+                                @error('address')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="from-group mt-3">
                                 <label>هاتف الشركة</label>
                                 <input name="phone" id="phone" class="form-control" value="{{ $data->phone }}"
                                     placeholder="ادخل هاتف الشركة">
+                                @error('phone')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="from-group mt-3">
                                 <label>رسالة تنبيه اعلى الشركة</label>
