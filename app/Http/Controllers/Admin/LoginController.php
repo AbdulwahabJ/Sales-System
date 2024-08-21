@@ -21,8 +21,9 @@ class LoginController extends Controller
             ])
         ) {
             return redirect()->route('admin.dashboard');
+        } else {
+            echo 'cant login now try after few minutes';
         }
-        else{echo 'nnn';}
     }
     public function logout()
     {

@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-define('PAGINATION_COUNT', 1);
+define('PAGINATION_COUNT', 5);
 Route::get('/', function () {
     return view('admin.auth.login');
 });
@@ -32,6 +32,12 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::post('/admin-panel-settings/update', [AdminPanelSettingsController::class, 'update'])->name('admin.adminPanelSettings.update');
     /*    start  treasuries     */
     Route::get('/treasuries/index', [TreasuriesController::class, 'index'])->name('admin.treasuries.index');
+    Route::get('/treasuries/create', [TreasuriesController::class, 'create'])->name('admin.treasuries.create');
+    Route::post('/treasuries/store', [TreasuriesController::class, 'store'])->name('admin.treasuries.store');
+    Route::get('/treasuries/edit/{id}', [TreasuriesController::class, 'edit'])->name('admin.treasuries.edit');
+    Route::post('/treasuries/update/{id}', [TreasuriesController::class, 'update'])->name('admin.treasuries.update');
+
+
     /*    end treasuries       */
 });
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'guest:admin'], function () {

@@ -31,7 +31,7 @@
                     <a href="{{ route('admin.adminPanelSettings.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            زبط اعداداتك ياوحش
+                            اعدادات الضبط العام
                         </p>
                     </a>
                 </li>

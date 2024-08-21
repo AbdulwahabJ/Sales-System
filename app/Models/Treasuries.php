@@ -15,12 +15,13 @@ class Treasuries extends Authenticatable
         'is_master',
         'last_isal_exhcange',
         'last_isal_collect',
+        'active',
         'created_at',
-        'updated_at',
         'added_by',
-        'updated_by',
         'com_code',
-        'date'
+        'date',
+        'updated_at',
+        'updated_by'
     ];
     use HasFactory;
 }
