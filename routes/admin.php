@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-define('PAGINATION_COUNT', 5);
+define('PAGINATION_COUNT', 2);
 Route::get('/', function () {
     return view('admin.auth.login');
 });
@@ -36,6 +36,7 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'auth
     Route::post('/treasuries/store', [TreasuriesController::class, 'store'])->name('admin.treasuries.store');
     Route::get('/treasuries/edit/{id}', [TreasuriesController::class, 'edit'])->name('admin.treasuries.edit');
     Route::post('/treasuries/update/{id}', [TreasuriesController::class, 'update'])->name('admin.treasuries.update');
+    Route::post('/treasuries/ajax_search', [TreasuriesController::class, 'ajax_search'])->name('admin.treasuries.ajax_search');
 
 
     /*    end treasuries       */

@@ -44,10 +44,10 @@ class TreasuriesController extends Controller
      */
     public function store(StoreTreasuryRequest $request)
     {
+        // dd($request->name);
         if ($request->is_master == 1 && Treasuries::where('is_master', 1)->exists()) {
             return redirect()->back()->with(['error' => 'لا يمكن انشاء اكثر من خزنة رئيسية'])->withInput();
         }
-
         DB::beginTransaction();
         try {
             Treasuries::create([
@@ -56,7 +56,6 @@ class TreasuriesController extends Controller
                 'last_isal_exhcange' => $request->last_isal_exhcange,
                 'last_isal_collect' => $request->last_isal_collect,
                 'active' => $request->active,
-                'created_at' => now(),
                 'added_by' => auth()->user()->id,
                 'com_code' => auth()->user()->com_code,
                 'date' => now(),
@@ -64,6 +63,7 @@ class TreasuriesController extends Controller
             DB::commit();
             return redirect()->route('admin.treasuries.index')->with('success', 'تم اضافة الخزنة بنجاح');
         } catch (\Exception $e) {
+            // dd($e);
             DB::rollBack();
             return redirect()->route('admin.treasuries.index')->withErrors(['error' => 'حدث خطأ اثناء انشاء الخزنة: ' . $e->getMessage()]);
         }
@@ -127,5 +127,19 @@ class TreasuriesController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function ajax_search(Request $request)
+    {
+        if ($request->ajax()) {
+            $search_by_text = $request->search_by_text;
+            $data = Treasuries::where('name', 'LIKE', "%{$search_by_text}%")
+                ->orderBy('id', 'DESC')
+                ->paginate(PAGINATION_COUNT);
+
+            return response()->json([
+                'data' => view('admin.treasuries.ajax_search', compact('data'))->render()
+            ]);
+        }
     }
 }

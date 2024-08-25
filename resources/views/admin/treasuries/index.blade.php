@@ -24,73 +24,67 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title card_title_center">بيانات الخزن</h3>
+                    <!-- -->
+                    <input type="hidden" id="token_search"value="{{ csrf_token() }}">
+                    <input type="hidden" id="ajax_search_url"value="{{ route('admin.treasuries.ajax_search') }}">
+                    <!-- -->
                     <a href="{{ route('admin.treasuries.create') }}" class="btn btn-sm btn-success">اضافة خزنة</a>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    @if (isset($data) && !empty($data))
-                        @php
-                            $i = 1;
-                        @endphp
-                        <table id="example2" class="table table-bordered table-hover">
-                            <thead class="custom_thead">
-                                <th>التسلسل</th>
-                                <th>اسم الخزنة</th>
-                                <th>رئيسية / فرعية</th>
-                                <th> اخر ايصال صرف</th>
-                                <th> اخر ايصال تحصيل</th>
-                                <th>حالة التفعيل</th>
-                                <th></th>
-                            </thead>
-                            <tbody>
-                                @foreach ($data as $info)
-                                    <tr>
-                                        <td>{{ $i }}</td>
-                                        <td>{{ $info->name }}</td>
-                                        <td>
-                                            @if ($info->is_master == 1)
-                                                رئيسية
-                                            @else
-                                                فرعية
-                                            @endif
-                                        </td>
+                    <div class="col-md-4">
+                        <input type="text" id="search_by_text" placeholder="ابحث بالاسم">
 
-                                        <td>{{ $info->last_isal_exhcange }}</td>
-                                        <td>{{ $info->last_isal_collect }}</td>
-                                        <td>
-                                            @if ($info->active == 1)
-                                                مفعل
-                                            @else
-                                                غير مفعل
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('admin.treasuries.edit', $info->id) }}"
-                                                class="btn btn-warning">تعديل</a>
-                                            <button class="btn btn-info" data-id="{{ $info->id }}">المزيد</button>
-                                        </td>
-                                        {{-- <td>
-                                            @php
-                                                $dt = new DateTime($info->created_at);
-                                                $date = $dt->format('Y-m-d');
-                                                $time = $dt->format('H:i');
-                                                $newDateTime = date('A', strtotime($time));
-                                                $newDateTimeType = $newDateTime == 'AM' ? 'صباحا' : 'مساءَ';
-                                            @endphp
-                                            {{ $date }}
-                                            <br>
-                                            {{ $time }}
+                    </div>
+                    <br>
 
-                                            {{ $newDateTimeType }}
-                                            <br>
-                                            بواسطة
-                                            {{ $info->added_by_admin->name }}
-                                        </td> --}}
-                                        {{-- <td>
 
-                                            @if ($info->updated_by > 0 and $info->updated_by != null)
+                    <div id="ajax_responce_searchDiv">
+                        @if (isset($data) && !empty($data))
+                            @php
+                                $i = 1;
+                            @endphp
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead class="custom_thead">
+                                    <th>التسلسل</th>
+                                    <th>اسم الخزنة</th>
+                                    <th>رئيسية / فرعية</th>
+                                    <th> اخر ايصال صرف</th>
+                                    <th> اخر ايصال تحصيل</th>
+                                    <th>حالة التفعيل</th>
+                                    <th></th>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data as $info)
+
+                                        <tr>
+                                            <td>{{ $i }}</td>
+                                            <td>{{ $info->name }}</td>
+                                            <td>
+                                                @if ($info->is_master == 1)
+                                                    رئيسية
+                                                @else
+                                                    فرعية
+                                                @endif
+                                            </td>
+
+                                            <td>{{ $info->last_isal_exhcange }}</td>
+                                            <td>{{ $info->last_isal_collect }}</td>
+                                            <td>
+                                                @if ($info->active == 1)
+                                                    مفعل
+                                                @else
+                                                    غير مفعل
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('admin.treasuries.edit', $info->id) }}"
+                                                    class="btn btn-warning">تعديل</a>
+                                                <button class="btn btn-info" data-id="{{ $info->id }}">المزيد</button>
+                                            </td>
+                                            {{-- <td>
                                                 @php
-                                                    $dt = new DateTime($info->updated_at);
+                                                    $dt = new DateTime($info->created_at);
                                                     $date = $dt->format('Y-m-d');
                                                     $time = $dt->format('H:i');
                                                     $newDateTime = date('A', strtotime($time));
@@ -99,35 +93,61 @@
                                                 {{ $date }}
                                                 <br>
                                                 {{ $time }}
+
                                                 {{ $newDateTimeType }}
                                                 <br>
                                                 بواسطة
-                                                {{ $info->updated_by_admin->name }}
+                                                {{ $info->added_by_admin->name }}
+                                            </td> --}}
+                                            {{-- <td>
 
-                                                <a href="{{ route('admin.adminPanelSettings.edit') }}"
-                                                    class="btn  btn-success">تعديل</a>
-                                            @else
-                                                لايوجد تحديث بعد
-                                            @endif
-                                        </td> --}}
-                                    </tr>
-                                    @php
-                                        $i++;
-                                    @endphp
-                                @endforeach
+                                                @if ($info->updated_by > 0 and $info->updated_by != null)
+                                                    @php
+                                                        $dt = new DateTime($info->updated_at);
+                                                        $date = $dt->format('Y-m-d');
+                                                        $time = $dt->format('H:i');
+                                                        $newDateTime = date('A', strtotime($time));
+                                                        $newDateTimeType = $newDateTime == 'AM' ? 'صباحا' : 'مساءَ';
+                                                    @endphp
+                                                    {{ $date }}
+                                                    <br>
+                                                    {{ $time }}
+                                                    {{ $newDateTimeType }}
+                                                    <br>
+                                                    بواسطة
+                                                    {{ $info->updated_by_admin->name }}
 
-                            </tbody>
+                                                    <a href="{{ route('admin.adminPanelSettings.edit') }}"
+                                                        class="btn  btn-success">تعديل</a>
+                                                @else
+                                                    لايوجد تحديث بعد
+                                                @endif
+                                            </td> --}}
+                                        </tr>
+                                    @endforeach
+
+                                </tbody>
 
 
-                        </table>
-                        <br>
-                        {{ $data->links() }}
-                    @else
-                        <div class="alert alert-info">لايوجد بيانات لعرضها</div>
-                    @endif
+                            </table>
+                            @php
+                                $i++;
+                            @endphp
+                                 <br>
+                                 {{ $data->links() }}
+                             @else
+                                 <div class="alert alert-info">لايوجد بيانات لعرضها</div>
+                                 @endif
 
-                </div>
+                             </div>
+                    </div>
+
+
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="{{ asset('assets/admin/js/treasuries.js') }}"></script>
 @endsection

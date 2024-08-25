@@ -14,9 +14,10 @@ class LoginController extends Controller
     }
     public function login(LoginRequest $request)
     {
+        // dd($request);
         if (auth()->guard('admin')
             ->attempt([
-                'username' => $request->input('username'),
+                'name' => $request->input('name'),
                 'password' => $request->input('password')
             ])
         ) {

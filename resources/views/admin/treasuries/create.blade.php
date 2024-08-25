@@ -16,9 +16,7 @@
     بيانات الخزن
 @endsection
 
-@php
-    dd(session()->all());
-@endphp
+
 
 @section('content')
     <div class="row justify-content-center">

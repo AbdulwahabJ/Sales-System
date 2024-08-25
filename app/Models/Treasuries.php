@@ -16,12 +16,21 @@ class Treasuries extends Authenticatable
         'last_isal_exhcange',
         'last_isal_collect',
         'active',
-        'created_at',
         'added_by',
         'com_code',
         'date',
-        'updated_at',
         'updated_by'
     ];
+
+    // 'name' => $request->name,
+    // 'is_master' => $request->is_master,
+    // 'last_isal_exhcange' => $request->last_isal_exhcange,
+    // 'last_isal_collect' => $request->last_isal_collect,
+    // 'active' => $request->active,
+    // 'added_by' => uth()->user()->id,
+    // 'com_code' => auth()->user()->com_code,
+    // 'date' => now(),
     use HasFactory;
+
+ 
 }
